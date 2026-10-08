@@ -3,12 +3,14 @@
 //Import components here
 import SnackHeader from './SnackHeader.jsx';
 import SnackList from './SnackList.jsx';
+import SnackFooter from './SnackFooter.jsx';
 
 export default function StudentWork() {
   return (
     <div>
       <SnackHeader />
       <SnackList />
+      <SnackFooter />
     </div>
   );
 }
