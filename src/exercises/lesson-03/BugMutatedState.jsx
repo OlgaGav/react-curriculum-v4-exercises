@@ -13,8 +13,7 @@ export default function BugMutatedState() {
   let [count, setCount] = useState(0);
 
   function handleAdd() {
-    count++;
-    setCount(count);
+    setCount((previouse) => previouse + 1);
   }
 
   return (
@@ -27,3 +26,7 @@ export default function BugMutatedState() {
 
 // Explanation:
 // (Write your explanation here)
+/**
+ * increase count directly is not correct as potentially can lead to issue if it will be run asynchronously
+ * function should count based on the previous value of count rather then directly  add + 1
+ */
