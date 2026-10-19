@@ -15,10 +15,14 @@ export default function BugEffectLoop() {
 
   useEffect(() => {
     setCount(count + 1);
-  });
+  }, []);
 
   return <p>Bug 1 Count: {count}</p>;
 }
 
 // Explanation:
 // (Write your explanation here)
+/**
+ * There were no dependencies in useEffect hook, which result in running continuously
+ * I added dependancy as empty array [], which means it will run only once when page is rendered
+ */
