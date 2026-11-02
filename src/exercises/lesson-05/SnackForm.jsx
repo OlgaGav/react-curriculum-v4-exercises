@@ -12,6 +12,9 @@ export default function SnackForm({
   const [rating, setRating] = useState('');
   const [touched, setTouched] = useState({ name: false, rating: false });
 
+  const nameError = getNameError();
+  const ratingError = getRatingError();
+
   useEffect(() => {
     if (editingSnack) {
       // prefill form if there is data in eidtingSnack when user click on Edit
@@ -28,12 +31,16 @@ export default function SnackForm({
 
   function handleSubmit(e) {
     e.preventDefault();
-    setTouched({ name: false, rating: false });
+
+    if (!validateName() || !validateRating()) {
+      setTouched({ name: true, rating: true });
+      return;
+    }
 
     if (isEditing) {
-      updateSnack(editingSnack.id, name, rating);
+      updateSnack(editingSnack.id, name.trim(), rating);
     } else {
-      addSnack(name, rating);
+      addSnack(name.trim(), rating);
       setName('');
       setRating('');
       setTouched({ name: false, rating: false });
@@ -41,20 +48,20 @@ export default function SnackForm({
   }
 
   function validateName() {
-    return true;
+    return name.trim() !== '';
   }
 
   function validateRating() {
-    return true;
+    return rating !== '';
   }
 
   // name should not be empty after trim
   function getNameError() {
-    return 'Snack name is required';
+    return touched.name && !validateName() ? 'Snack name is required' : '';
   }
 
   function getRatingError() {
-    return 'Please select a rating';
+    return touched.rating && !validateRating() ? 'Please select a rating' : '';
   }
 
   return (
@@ -79,6 +86,7 @@ export default function SnackForm({
           className={styles['field-input']}
           placeholder="Enter snack name"
         />
+        {nameError && <div className={styles.error}>{nameError}</div>}
       </div>
 
       <div className={styles['field-container']}>
@@ -96,6 +104,7 @@ export default function SnackForm({
           className={styles['field-input']}
           placeholder="Rate 1-5"
         />
+        {ratingError && <div className={styles.error}>{ratingError}</div>}
       </div>
 
       <div className={styles['button-container']}>
