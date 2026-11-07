@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ButtonFilterContent from './src/components/ButtonFilterContent';
 
 export default function StudentWork() {
   const [tasks, setTasks] = useState([]);
@@ -39,9 +40,17 @@ export default function StudentWork() {
 
       {/* #4: Repeated button JSX */}
       <div>
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('completed')}>Completed</button>
-        <button onClick={() => setFilter('pending')}>Pending</button>
+        <ButtonFilterContent value="all" label="All" onSelect={setFilter} />
+        <ButtonFilterContent
+          value="completed"
+          label="Completed"
+          onSelect={setFilter}
+        />
+        <ButtonFilterContent
+          value="pending"
+          label="Pending"
+          onSelect={setFilter}
+        />
         <p>Current filter: {filter}</p>
       </div>
 
