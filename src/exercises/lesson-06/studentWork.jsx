@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ButtonFilterContent from './src/components/ButtonFilterContent';
+import { filterTasks } from './src/utils/helper';
 
 export default function StudentWork() {
   const [tasks, setTasks] = useState([]);
@@ -21,13 +22,7 @@ export default function StudentWork() {
   }, []);
 
   // #2: Filtering logic inside component
-  let visibleTasks = tasks;
-  if (filter === 'completed') {
-    visibleTasks = tasks.filter((task) => task.completed);
-  }
-  if (filter === 'pending') {
-    visibleTasks = tasks.filter((task) => !task.completed);
-  }
+  const filteredTasks = filterTasks(tasks, filter);
 
   if (loading) {
     return <p>Loading tasks...</p>;
@@ -56,7 +51,7 @@ export default function StudentWork() {
 
       {/* #5: Inline list rendering */}
       <ul>
-        {visibleTasks.map((task) => (
+        {filteredTasks.map((task) => (
           <li key={task.id}>
             {task.title} {task.completed ? '✅' : '⏳'}
           </li>
