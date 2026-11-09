@@ -1,28 +1,12 @@
-import { useEffect, useState } from 'react';
 import ButtonFilterContent from './src/components/ButtonFilterContent';
-import { filterTasks } from './src/utils/helper';
+import { getStudentName } from './src/utils/helper';
+import { useTasks } from './src/hooks/useTasks';
 
 export default function StudentWork() {
-  const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState('all');
-  const [loading, setLoading] = useState(true);
-
-  //  #1: Data fetching + state + UI logic all mixed together
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setTasks([
-        { id: 1, title: 'Learn React', completed: true },
-        { id: 2, title: 'Refactor code', completed: false },
-        { id: 3, title: 'Organize files', completed: false },
-      ]);
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  // #2: Filtering logic inside component
-  const filteredTasks = filterTasks(tasks, filter);
+  const studentName = getStudentName();
+  const { tasks, loading, filter, setFilter } = useTasks({
+    initialFilter: 'all',
+  });
 
   if (loading) {
     return <p>Loading tasks...</p>;
@@ -31,7 +15,7 @@ export default function StudentWork() {
   return (
     <div>
       {/* #3: Hardcoded UI, not reusable */}
-      <h2>Welcome, Student</h2>
+      <h2>Welcome, {studentName}</h2>
 
       {/* #4: Repeated button JSX */}
       <div>
@@ -51,7 +35,7 @@ export default function StudentWork() {
 
       {/* #5: Inline list rendering */}
       <ul>
-        {filteredTasks.map((task) => (
+        {tasks.map((task) => (
           <li key={task.id}>
             {task.title} {task.completed ? '✅' : '⏳'}
           </li>

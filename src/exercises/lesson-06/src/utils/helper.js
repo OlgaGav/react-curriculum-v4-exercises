@@ -14,3 +14,7 @@ export function filterTasks(tasks, filter) {
 
   return visibleTasks;
 }
+
+export function getStudentName() {
+  return 'Student';
+}
