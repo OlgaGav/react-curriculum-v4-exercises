@@ -4,6 +4,8 @@ import { getPosts } from './api';
 
 export default function FetchOnRender() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function loadPosts() {
       try {
@@ -11,6 +13,8 @@ export default function FetchOnRender() {
         setPosts(data);
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setLoading(false);
       }
     }
     loadPosts();
@@ -20,15 +24,17 @@ export default function FetchOnRender() {
     <div className="root">
       <h1 className="heading">Fetch list of posts on render</h1>
       <div className="content">
-        {posts.length > 0
-          ? posts.map((post) => (
-              <div key={post.id}>
-                <h2>{post.title}</h2>
-                <p>{post.body}</p>
-                <p>{post.userId}</p>
-              </div>
-            ))
-          : 'No posts'}
+        {loading
+          ? 'Loading ...'
+          : posts.length > 0
+            ? posts.map((post) => (
+                <div key={post.id} className="post">
+                  <h2>{post.title}</h2>
+                  <p>{post.body}</p>
+                  <p>Author: {post.userId}</p>
+                </div>
+              ))
+            : 'No posts'}
       </div>
     </div>
   );

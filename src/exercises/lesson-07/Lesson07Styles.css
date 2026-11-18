@@ -41,6 +41,14 @@
     line-height: 1;
     padding: 4px;
   }
+
+  .post {
+    background-color: #c7e5af;
+    border-radius: 4px;
+    border: 1px solid #000;
+    padding: calc(var(--spacing) * 2);
+    margin-top: calc(var(--spacing) * 2);
+  }
 }
 
 .root + .root {
