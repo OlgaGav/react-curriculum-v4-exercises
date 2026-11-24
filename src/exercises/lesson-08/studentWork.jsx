@@ -1,7 +1,7 @@
 //Lesson-08 Advanced Hooks: useCallback and useMemo, Optimizing a React App
 //Exercise: Book Library Dashboard Performance Optimization
 
-import { useState, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { bookData, getAllGenres, filterBooksByGenre } from './bookData.js';
 import {
   useRenderCounter,
@@ -44,14 +44,14 @@ export default function StudentWork() {
     );
   };
 
-  // Filter books by search term and selected genres
-  let filteredBooks = bookData.filter(
-    (book) =>
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  filteredBooks = filterBooksByGenre(filteredBooks, selectedGenres);
+  let filteredBooks = useMemo(() => {
+    const bySearchTerm = bookData.filter(
+      (book) =>
+        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return filterBooksByGenre(bySearchTerm, selectedGenres);
+  }, [searchTerm, selectedGenres]);
 
   return (
     <div className={styles.dashboard}>
