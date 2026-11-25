@@ -39,7 +39,7 @@ export default function StudentWork() {
     );
   }, []);
 
-  const debounceSearchTerm = useDebounce(searchTerm, 3000);
+  const debouncedSearchTerm = useDebounce(searchTerm, 3000);
 
   const handleGenreToggle = (genre) => {
     setSelectedGenres((prev) =>
@@ -47,14 +47,14 @@ export default function StudentWork() {
     );
   };
 
-  let filteredBooks = useMemo(() => {
+  const filteredBooks = useMemo(() => {
     const bySearchTerm = bookData.filter(
       (book) =>
-        book.title.toLowerCase().includes(debounceSearchTerm.toLowerCase()) ||
-        book.author.toLowerCase().includes(debounceSearchTerm.toLowerCase())
+        book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        book.author.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
     return filterBooksByGenre(bySearchTerm, selectedGenres);
-  }, [debounceSearchTerm, selectedGenres]);
+  }, [debouncedSearchTerm, selectedGenres]);
 
   return (
     <div className={styles.dashboard}>
@@ -217,7 +217,7 @@ export default function StudentWork() {
       {/* Book List */}
       <BookList
         books={filteredBooks}
-        searchTerm={debounceSearchTerm}
+        searchTerm={debouncedSearchTerm}
         sortBy={sortBy}
         favorites={favorites}
         onToggleFavorite={handleToggleFavorite}
