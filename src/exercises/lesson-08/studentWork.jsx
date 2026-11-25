@@ -10,6 +10,7 @@ import {
 import BookStats from './BookStats.jsx';
 import BookList from './BookList.jsx';
 import styles from './StudentWork.module.css';
+import useDebounce from './useDebounce';
 
 // Main Dashboard Component - Contains performance issues to be optimized
 export default function StudentWork() {
@@ -38,6 +39,8 @@ export default function StudentWork() {
     );
   }, []);
 
+  const debounceSearchTerm = useDebounce(searchTerm, 3000);
+
   const handleGenreToggle = (genre) => {
     setSelectedGenres((prev) =>
       prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
@@ -47,11 +50,11 @@ export default function StudentWork() {
   let filteredBooks = useMemo(() => {
     const bySearchTerm = bookData.filter(
       (book) =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchTerm.toLowerCase())
+        book.title.toLowerCase().includes(debounceSearchTerm.toLowerCase()) ||
+        book.author.toLowerCase().includes(debounceSearchTerm.toLowerCase())
     );
     return filterBooksByGenre(bySearchTerm, selectedGenres);
-  }, [searchTerm, selectedGenres]);
+  }, [debounceSearchTerm, selectedGenres]);
 
   return (
     <div className={styles.dashboard}>
@@ -214,7 +217,7 @@ export default function StudentWork() {
       {/* Book List */}
       <BookList
         books={filteredBooks}
-        searchTerm={searchTerm}
+        searchTerm={debounceSearchTerm}
         sortBy={sortBy}
         favorites={favorites}
         onToggleFavorite={handleToggleFavorite}

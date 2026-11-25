@@ -4,7 +4,7 @@ import {
 } from '../../private/components/renderCounter.jsx';
 import BookCard from './BookCard.jsx';
 import styles from './BookList.module.css';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 
 // Book List Component - Expensive sorting operation runs on every render
 function BookList({ books, sortBy, favorites, onToggleFavorite }) {
@@ -53,4 +53,4 @@ function BookList({ books, sortBy, favorites, onToggleFavorite }) {
   );
 }
 
-export default BookList;
+export default memo(BookList);
